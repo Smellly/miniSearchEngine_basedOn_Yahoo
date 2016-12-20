@@ -1,11 +1,11 @@
 readme.md
 
-urls
+# urls
 HTML的原文件
 從www.yahoo.com上爬下來的以html結尾的1000頁
 其中mainPage.html是www.yahoo.com首頁
 
-dictionaries
+# dictionaries
 html處理後的文件
 用pickle格式dump的
 讀取方法
@@ -28,6 +28,6 @@ porter_stemmer = PorterStemmer()
 porter_stemmer.stem(word.lower().decode('utf-8'))
 ```
 
-stop word list
+# stop word list
 一共174個詞
 使用stopwords之後，idf詞表從43936減少到43776個
