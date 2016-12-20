@@ -14,6 +14,7 @@ try:
 except:
     import pickle as pkl
 from nltk.stem.porter import PorterStemmer # for stemming
+from idf import stopWords
 
 def getFileList(path):
     fileList = []
@@ -46,7 +47,7 @@ def rePattern():
 # return wordDict
 # wordDict['Title'] = html.title
 # wordDict['Content'] = html.content
-def fileProcess(patternList, html_doc):
+def fileProcess(patternList, html_doc, stopWords):
     porter_stemmer = PorterStemmer()
     wordDict = dict()
     '''
@@ -68,10 +69,11 @@ def fileProcess(patternList, html_doc):
     wordDict['Content'] = content
     for word in content.split():
         word_u = porter_stemmer.stem(word.lower().decode('utf-8'))
-        if word_u in wordDict:
-            wordDict[word_u] += 1
-        else:
-            wordDict[word_u] = 1
+        if word_u not in stopWords:
+            if word_u in wordDict:
+                wordDict[word_u] += 1
+            else:
+                wordDict[word_u] = 1
     return wordDict
 
 
@@ -84,9 +86,10 @@ if __name__ == '__main__':
 
     # run
     fileList = getFileList('urls')
+    stopWords = stopWords()
     for idx,f in enumerate(fileList):
         html_doc = loadFile(f)
-        wordDict = fileProcess(patternList, html_doc)
+        wordDict = fileProcess(patternList, html_doc, stopWords)
         savePath = f.replace('urls', 'dictionaries').replace('html', 'pickle')
         #saveFile(savePath, wordDict)
         print('='*20*int(idx/len(fileList))+'\r'),
