@@ -5,4 +5,7 @@ idf.pickle
 urls.tar.gz
 urls/
 urls_before/
+dictionaries.tar.gz
+idf.pyc
+
 
