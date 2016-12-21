@@ -4,7 +4,7 @@
 # @Date    : 2016-12-20 09:57:13
 # @Author  : Jay Smelly (j.c.xing@qq.com)
 # @Link    : None
-# @Version : 1
+# @Version : 1.3
 __author__ = 'Shen Chen'
 
 import os
@@ -14,7 +14,10 @@ try:
 except:
     import pickle as pkl
 from nltk.stem.porter import PorterStemmer # for stemming
+from nltk.tokenize import RegexpTokenizer  # for tokenize
 from idf import stopWords
+# from nltk import word_tokenize
+
 
 def getFileList(path):
     fileList = []
@@ -49,6 +52,7 @@ def rePattern():
 # wordDict['Content'] = html.content
 def fileProcess(patternList, html_doc, stopWords):
     porter_stemmer = PorterStemmer()
+    tokenizer = RegexpTokenizer(r'\w+')
     wordDict = dict()
     '''
     pattern : 正则中的模式字符串。
@@ -57,6 +61,8 @@ def fileProcess(patternList, html_doc, stopWords):
     count : 模式匹配后替换的最大次数，默认 0 表示替换所有的匹配。
     '''
     url = html_doc.split('\n')[0]
+    # remove url from html_doc
+    html_doc = html_doc[len(url):] 
     # print url
     wordDict['Url'] = url
     title = re.search('<title.*?title>', html_doc).group()[7:-8]
@@ -64,16 +70,22 @@ def fileProcess(patternList, html_doc, stopWords):
     wordDict['Title'] = title
     for r in patternList:
         html_doc = re.sub(r, ' ', html_doc, count=0)  
-    content = ' '.join(html_doc.split())
+    # content = word_tokenize(html_doc.decode('utf8'))
+    content = tokenizer.tokenize(html_doc.decode('utf8'))
     if not content: print title
     wordDict['Content'] = content
-    for word in content.split():
-        word_u = porter_stemmer.stem(word.lower().decode('utf-8'))
-        if word_u not in stopWords:
-            if word_u in wordDict:
-                wordDict[word_u] += 1
-            else:
-                wordDict[word_u] = 1
+    for word in content:
+        try:
+            word_u = porter_stemmer.stem(word.lower())
+            # print word_u
+            if word_u not in stopWords:
+                if word_u in wordDict:
+                    wordDict[word_u] += 1
+                else:
+                    wordDict[word_u] = 1
+        except:
+            print 'can\'t tokenize word:', word
+
     return wordDict
 
 
