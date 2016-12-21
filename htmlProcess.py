@@ -4,7 +4,7 @@
 # @Date    : 2016-12-20 09:57:13
 # @Author  : Jay Smelly (j.c.xing@qq.com)
 # @Link    : None
-# @Version : 1.3
+# @Version : 1.4
 __author__ = 'Shen Chen'
 
 import os
@@ -16,6 +16,7 @@ except:
 from nltk.stem.porter import PorterStemmer # for stemming
 from nltk.tokenize import RegexpTokenizer  # for tokenize
 from idf import stopWords
+from tqdm import tqdm
 # from nltk import word_tokenize
 
 
@@ -71,6 +72,7 @@ def fileProcess(patternList, html_doc, stopWords):
     for r in patternList:
         html_doc = re.sub(r, ' ', html_doc, count=0)  
     # content = word_tokenize(html_doc.decode('utf8'))
+    wordDict['Raw'] = html_doc.decode('utf8')
     content = tokenizer.tokenize(html_doc.decode('utf8'))
     if not content: print title
     wordDict['Content'] = content
@@ -99,9 +101,8 @@ if __name__ == '__main__':
     # run
     fileList = getFileList('urls')
     stopWords = stopWords()
-    for idx,f in enumerate(fileList):
+    for f in tqdm(fileList):
         html_doc = loadFile(f)
         wordDict = fileProcess(patternList, html_doc, stopWords)
         savePath = f.replace('urls', 'dictionaries').replace('html', 'pickle')
-        #saveFile(savePath, wordDict)
-        print('='*20*int(idx/len(fileList))+'\r'),
+        saveFile(savePath, wordDict)

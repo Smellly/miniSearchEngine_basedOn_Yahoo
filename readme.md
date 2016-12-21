@@ -17,7 +17,8 @@ with open(filepath, 'r') as fin:
 讀出來d是dict格式  
 d['Url'] is url   
 d['Title']是文本的title  
-d['Content']是文本的內容  
+d['Raw']是文本的原始內容，字符串的形式    
+d['Content']是文本的分詞後的內容，是列表的形式，列表內是每個分好的詞    
 剩下的key是文本中出現的詞  
 對應的value是出現的次數  
 所有的詞都是小寫後、提取詞乾(stemming)的結果  
@@ -41,3 +42,16 @@ tokenizer.tokenize('Eighty-seven miles to go, yet.  Onward!')
 # stop word list
 一共174個詞  
 使用stopwords之後，idf詞表從43936減少到43776個  
+
+# htmlProcess.py
+對html文本內容進行提取，  
+分詞  
+stemming  
+最後統計詞頻  
+
+# idf.py  
+統計了詞在所有文檔中出現的次數  
+並計算了idf  
+```
+idfDict[word] = math.log(total_file/(times + 1))
+```

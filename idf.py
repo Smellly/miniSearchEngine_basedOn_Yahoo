@@ -4,7 +4,7 @@
 # @Date    : 2016-12-20 09:57:13
 # @Author  : Jay Smelly (j.c.xing@qq.com)
 # @Link    : None
-# @Version : 1
+# @Version : 1.2
 
 __author__ = 'Shen Chen'
 
@@ -14,6 +14,8 @@ try:
 except:
     import pickle as pkl
 from nltk.stem.porter import PorterStemmer # for stemming
+from tqdm import tqdm
+import math
 
 def stopWords(path = 'stopWord.txt'):
     porter_stemmer = PorterStemmer()
@@ -33,9 +35,9 @@ def getFileList(path):
 def idf(idfDict, d, stopWords):
     porter_stemmer = PorterStemmer()
     wordSet = set()
-    words = d['Content'].split()
+    words = d['Content']
     for word in words:
-        w = porter_stemmer.stem(word.lower().decode('utf-8'))
+        w = porter_stemmer.stem(word) # already decode utf-8 in htmlProcess
         if w not in stopWords:
             wordSet.add(w)
     for word in wordSet:
@@ -43,6 +45,10 @@ def idf(idfDict, d, stopWords):
             idfDict[word] += 1
         else:
             idfDict[word] = 1
+    fileList = getFileList('dictionaries')
+    total_file = len(fileList)
+    for word, times in idfDict.items():
+        idfDict[word] = math.log(total_file/(times + 1))
     return idfDict
 
 if __name__ == '__main__':
@@ -50,7 +56,7 @@ if __name__ == '__main__':
     fileList = getFileList('dictionaries')
     stopWords = stopWords() # 43776
     # stopWords = [] 43936
-    for f in fileList:
+    for f in tqdm(fileList):
         # print f
         with open(os.path.join('dictionaries', f), 'r') as fin:
             d = pkl.load(fin)
@@ -58,4 +64,4 @@ if __name__ == '__main__':
     # not the same path as dictionaries or will occur an error
     with open('idf.pickle', 'w') as fout:
         pkl.dump(idfDict, fout, True)
-    print len(idfDict)
+    print 'len of idfDict:', len(idfDict)
