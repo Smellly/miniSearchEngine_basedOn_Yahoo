@@ -39,13 +39,13 @@ def idf(idfDict, d, stopWords):
     for word in words:
         w = porter_stemmer.stem(word) # already decode utf-8 in htmlProcess
         if w not in stopWords:
-            wordSet.add(w)
+            wordSet.add(w.lower())
     for word in wordSet:
         if word in idfDict:
             idfDict[word] += 1
         else:
             idfDict[word] = 1
-    fileList = getFileList('dictionaries')
+    fileList = getFileList('./dictionaries')
     total_file = len(fileList)
     for word, times in idfDict.items():
         idfDict[word] = math.log(total_file/(times + 1))
@@ -53,12 +53,12 @@ def idf(idfDict, d, stopWords):
 
 if __name__ == '__main__':
     idfDict = dict()
-    fileList = getFileList('dictionaries')
+    fileList = getFileList('./dictionaries')
     stopWords = stopWords() # 43776
     # stopWords = [] 43936
     for f in tqdm(fileList):
         # print f
-        with open(os.path.join('dictionaries', f), 'r') as fin:
+        with open(os.path.join('./dictionaries', f), 'r') as fin:
             d = pkl.load(fin)
         idf(idfDict, d, stopWords)
     # not the same path as dictionaries or will occur an error

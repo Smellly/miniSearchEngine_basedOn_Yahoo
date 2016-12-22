@@ -55,17 +55,17 @@ def fileProcess(patternList, html_doc, stopWords):
     porter_stemmer = PorterStemmer()
     tokenizer = RegexpTokenizer(r'\w+')
     wordDict = dict()
+    url = html_doc.split('\n')[0]
+    # remove url from html_doc
+    html_doc = html_doc[len(url):] 
+    # print url
+    wordDict['Url'] = url
     '''
     pattern : 正则中的模式字符串。
     repl : 替换的字符串，也可为一个函数。
     string : 要被查找替换的原始字符串。
     count : 模式匹配后替换的最大次数，默认 0 表示替换所有的匹配。
     '''
-    url = html_doc.split('\n')[0]
-    # remove url from html_doc
-    html_doc = html_doc[len(url):] 
-    # print url
-    wordDict['Url'] = url
     title = re.search('<title.*?title>', html_doc).group()[7:-8]
     # print title
     wordDict['Title'] = title

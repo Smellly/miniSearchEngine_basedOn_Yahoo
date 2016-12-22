@@ -7,5 +7,8 @@ urls/
 urls_before/
 dictionaries.tar.gz
 idf.pyc
-
+*.pyc
+*.pickle
+*.tar.gz
+*.npy
 

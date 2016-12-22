@@ -55,3 +55,32 @@ stemming
 ```
 idfDict[word] = math.log(total_file/(times + 1))
 ```
+
+# 運行順序
+1. 爬取文件
+```python yahoo.py```
+
+2. 提取文本內容
+```python htmlProcess.py```
+
+3. 計算idf
+```python idf.py```
+
+4. 建立單詞和文件編碼
+```
+python word_file_index/word_file_index.py
+```
+
+5. 儲存詞表的 idf
+```
+python word_idf_array/word_idf_array.py
+```
+6. 儲存文章列表的 tf
+```
+python file_word_tf_array/file_word_tf_array.py
+```
+
+# numpy 的存取
+利用这种方法，保存文件的后缀名字一定会被置为.npy   
+```numpy.save("filename.npy",a)```
+这种格式最好只用```a = numpy.load("filename")```来读取。
