@@ -48,7 +48,9 @@ def idf(idfDict, d, stopWords):
     fileList = getFileList('./dictionaries')
     total_file = len(fileList)
     for word, times in idfDict.items():
-        idfDict[word] = math.log(total_file/(times + 1))
+        if times == 0:
+            print 'DF(ti) is zero!'
+        idfDict[word] = math.log(total_file/(times))
     return idfDict
 
 if __name__ == '__main__':
