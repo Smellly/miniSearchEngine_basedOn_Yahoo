@@ -76,11 +76,13 @@ def fileProcess(patternList, html_doc, stopWords):
     content = tokenizer.tokenize(html_doc.decode('utf8'))
     if not content: print title
     wordDict['Content'] = content
+    wordDict['Length'] = 0
     for word in content:
         try:
             word_u = porter_stemmer.stem(word.lower())
             # print word_u
             if word_u not in stopWords:
+                wordDict['Length'] += 1
                 if word_u in wordDict:
                     wordDict[word_u] += 1
                 else:

@@ -26,10 +26,10 @@ def file_word_tf_array():
             file_dict = pkl.load(fin)
             for index_word in range(len(word_index)):
                 if word_index[index_word] in file_dict:
-                   # if index_file == 2 and file_dict[word_index[index_word]] != 0:
-                   #     print file_dict[word_index[index_word]]
-                        #print word_index[index_word], file_dict[word_index[index_word]]
-                    tf = np.log(file_dict[word_index[index_word]]) + 1
+                    # log way
+                    # tf = np.log(file_dict[word_index[index_word]]) + 1
+                    # Term Frequancy way
+                    tf = float(file_dict[word_index[index_word]])/file_dict['Length']
                     file_word_tf_array[index_file].append(tf)
                 else:
                     file_word_tf_array[index_file].append(0)
