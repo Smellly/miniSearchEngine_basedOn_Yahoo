@@ -32,7 +32,9 @@ python tf_idf_array/tf_idf_array.py
 ```
 
 8. 建立倒排表
-
+```
+python inverted_list/inverted_list.py
+```
 
 # urls
 HTML的原文件  
@@ -53,7 +55,7 @@ d['Url'] is url
 d['Title']是文本的title  
 d['Raw']是文本的原始內容，字符串的形式    
 d['Content']是文本的分詞後的內容，是列表的形式，列表內是每個分好的詞    
-d['Length']是文本去除停用詞後的詞數
+d['Length']是文本去除停用詞後的詞數  
 剩下的key是文本中出現的詞  
 對應的value是出現的次數  
 所有的詞都是小寫後、提取詞乾(stemming)的結果  
@@ -86,12 +88,10 @@ stemming
 
 # idf.py  
 統計了詞在所有文檔中出現的次數  
-並計算了idf  
-```
-idfDict[word] = math.log(total_file/(times + 1))
-```
 
 # numpy 的存取
 利用这种方法，保存文件的后缀名字一定会被置为.npy   
-```numpy.save("filename.npy",a)```
+```
+numpy.save("filename.npy",a)
+```
 这种格式最好只用```a = numpy.load("filename")```来读取。
