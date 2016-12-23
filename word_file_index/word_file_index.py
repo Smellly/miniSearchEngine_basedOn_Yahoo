@@ -40,8 +40,10 @@ def word_file_index():
             index = index + 1
 
     # 文件編碼
+    print 'save to word_file_index/file_index.pickle'
     saveFile('word_file_index/file_index.pickle', file_index) 
     # 單詞編碼
+    print 'save to word_file_index/word_index.pickle'
     saveFile('word_file_index/word_index.pickle', word_index)
 
 

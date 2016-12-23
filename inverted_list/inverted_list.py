@@ -2,7 +2,7 @@
 # coding=utf-8
 
 import time
-
+from tqdm import tqdm
 try:
     import cPickle as pkl
 except:
@@ -11,21 +11,17 @@ except:
 
 #返回单词word在文件file_path中首次出现的起止位置
 # file_path为dictionaries目录下的某个文件
-
 def word_location(word, file_path):
     with open(file_path, 'r') as fin:
         file_dict = pkl.load(fin)
-        content = file_dict['Raw']
-        pos_start = content.find(word)
-        pos_end = pos_start + len(word) - 1
-    
+    content = file_dict['Raw']
+    pos_start = content.find(word)
+    pos_end = pos_start + len(word) - 1
     return pos_start, pos_end
-
 
 def saveFile(path, obj):
     with open(path, 'w') as fout:
         pkl.dump(obj, fout, True)
-
 
 #inverted_list数据结构为python下的一个字典, 字典的key为每个单词,对应的value
 #为一个list,list每个元素为一个子list，子list结构为[文档ID, key的起始位置, key的结束位置]
@@ -37,7 +33,8 @@ def inverted_list():
         word_index = pkl.load(fin)
 
     start = time.time()
-    for index_word in range(len(word_index)):
+    l = len(word_index)
+    for index_word in tqdm(range(l)):
         inverted_list[word_index[index_word]] = []
         index = 0
         for index_file in range(len(file_index)):
@@ -52,7 +49,8 @@ def inverted_list():
                 inverted_list[word_index[index_word]][index].append(pos_end)
                 index = index + 1
             else:
-                print index_word, index_file
+                pass
+                # print index_word, word_index[index_word], index_file, file_index[index_file]
     end = time.time()
     consume_time = end - start
     consume_time = time.strftime('%H:%M:%S', time.gmtime(consume_time))

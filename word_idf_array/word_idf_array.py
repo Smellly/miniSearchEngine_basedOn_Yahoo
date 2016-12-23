@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 import numpy as np
+from tqdm import tqdm
 try:
     import cPickle as pkl
 except:
@@ -17,7 +18,8 @@ def word_idf_array():
         word_index = pkl.load(fin)
 
     word_idf_array = list()
-    for index in range(len(word_index)):
+    l = len(word_index)
+    for index in tqdm(range(l)):
         print index, word_index[index], word_idf[word_index[index]]
         word_idf_array.append(word_idf[word_index[index]])
 

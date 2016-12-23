@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-
+from tqdm import tqdm
 import numpy as np
 try:
     import cPickle as pkl
@@ -20,7 +20,8 @@ def file_word_tf_array():
         word_index = pkl.load(fin)
 
     file_word_tf_array = list()
-    for index_file in range(len(file_index)):
+    l = len(file_index)
+    for index_file in tqdm(range(l)):
         file_word_tf_array.append([])
         with open('dictionaries/'+file_index[index_file], 'r') as fin:
             file_dict = pkl.load(fin)
