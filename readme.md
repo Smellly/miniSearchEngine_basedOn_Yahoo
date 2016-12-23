@@ -1,5 +1,39 @@
 readme.md
 
+# 運行順序
+1. 爬取文件
+```python yahoo.py```
+
+2. 提取文本內容
+```python htmlProcess.py```
+
+3. 計算idf
+```python idf.py```
+
+4. 建立單詞和文件編碼
+```
+python word_file_index/word_file_index.py
+```
+
+5. 儲存詞表的 idf
+詞表每個詞的idf
+```
+python word_idf_array/word_idf_array.py
+```
+6. 儲存文章列表的 tf
+計算每篇文章的tf，並存儲
+```
+python file_word_tf_array/file_word_tf_array.py
+```
+
+7. 計算 tf-idf
+```
+python tf_idf_array/tf_idf_array.py
+```
+
+8. 建立倒排表
+
+
 # urls
 HTML的原文件  
 從www.yahoo.com上爬下來的以html結尾的1000頁  
@@ -54,30 +88,6 @@ stemming
 並計算了idf  
 ```
 idfDict[word] = math.log(total_file/(times + 1))
-```
-
-# 運行順序
-1. 爬取文件
-```python yahoo.py```
-
-2. 提取文本內容
-```python htmlProcess.py```
-
-3. 計算idf
-```python idf.py```
-
-4. 建立單詞和文件編碼
-```
-python word_file_index/word_file_index.py
-```
-
-5. 儲存詞表的 idf
-```
-python word_idf_array/word_idf_array.py
-```
-6. 儲存文章列表的 tf
-```
-python file_word_tf_array/file_word_tf_array.py
 ```
 
 # numpy 的存取

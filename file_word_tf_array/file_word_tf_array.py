@@ -29,15 +29,15 @@ def file_word_tf_array():
                    # if index_file == 2 and file_dict[word_index[index_word]] != 0:
                    #     print file_dict[word_index[index_word]]
                         #print word_index[index_word], file_dict[word_index[index_word]]
-                    file_word_tf_array[index_file].append(file_dict[word_index[index_word]])
+                    tf = np.log(file_dict[word_index[index_word]]) + 1
+                    file_word_tf_array[index_file].append(tf)
                 else:
                     file_word_tf_array[index_file].append(0)
-   # print '\n\n\n\n' 
+
     file_word_tf_array = np.array(file_word_tf_array)
-  #  for index in range(len(file_word_tf_array[1])):
-  #      if file_word_tf_array[2][index] != 0:
-  #          print file_word_tf_array[2][index]
+
     # saveFile('file_word_tf_array/file_word_tf_array.pickle', file_word_tf_array)
+    print 'save to file_word_tf_array/file_word_tf_array.npy'
     np.save('file_word_tf_array/file_word_tf_array.npy', file_word_tf_array)
 
 

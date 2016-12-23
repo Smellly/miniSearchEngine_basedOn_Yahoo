@@ -23,13 +23,12 @@ def word_idf_array():
 
     word_idf_array = np.array(word_idf_array)
 
-    saveFile('word_idf_array/word_idf_array.pickle', word_idf_array)
+    # saveFile('word_idf_array/word_idf_array.pickle', word_idf_array)
+    print 'save to word_idf_array/word_idf_array.npy'
+    np.save('word_idf_array/word_idf_array.npy', word_idf_array)
     
    # for index in range(len(word_idf)):
     #    print index, word_index[index],word_idf[word_index[index]], word_idf_array[index]
-
-
-
 
 if __name__ == '__main__':
     word_idf_array()
