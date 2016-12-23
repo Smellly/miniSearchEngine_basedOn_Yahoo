@@ -24,6 +24,7 @@ def tf_idf_array():
     print 'size of tf_idf_array:', tf_idf_array.shape
     # saveFile('tf_idf_array/tf_idf_array.pickle', tf_idf_array)
     print 'save to tf_idf_array/tf_idf_array.npy'
+    assert(sum(sum(tf_idf_array)) > 0)
     np.save('tf_idf_array/tf_idf_array.npy', tf_idf_array)
 
 if __name__ == '__main__':
