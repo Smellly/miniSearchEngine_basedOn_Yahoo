@@ -14,9 +14,12 @@ except:
 def word_location(word, file_path):
     with open(file_path, 'r') as fin:
         file_dict = pkl.load(fin)
-    content = file_dict['Raw']
+    content = file_dict['Raw'].lower()
     pos_start = content.find(word)
-    pos_end = pos_start + len(word) - 1
+    if pos_start != -1:
+        pos_end = content.find(' ', pos_start + 1)
+    else:
+        pos_end = -1
     return pos_start, pos_end
 
 def saveFile(path, obj):
