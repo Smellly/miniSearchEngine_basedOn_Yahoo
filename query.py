@@ -3,9 +3,10 @@
 # @Date    : 2016-12-23 15:49:13
 # @Author  : Jay Smelly (j.c.xing@qq.com)
 # @Link    : None
-# @Version : 1
+# @Version : 1.3
 
 import time
+import sys
 import numpy as np
 from nltk.stem.porter import PorterStemmer # for stemming
 from nltk.tokenize import RegexpTokenizer  # for tokenize
@@ -48,7 +49,7 @@ def words2tfidf(query_word_list):
 # str
 # output:
 # k nearest_file_id
-def query(str, K = 20):
+def query(query_word_list, K = 20):
     with open('word_file_index/file_index.pickle', 'r') as fin:
         file_index = pkl.load(fin)
     # print 'loading inverted_list/inverted_list_test.pickle'
@@ -56,16 +57,6 @@ def query(str, K = 20):
         inverted_list = pkl.load(fin)
     tf_idf_array = np.load('tf_idf_array/tf_idf_array.npy')
 
-    porter_stemmer = PorterStemmer()
-    tokenizer = RegexpTokenizer(r'\w+')
-    # print str
-    try:
-        query_word_list = tokenizer.tokenize(str.decode('utf8'))
-    except:
-        query_word_list = tokenizer.tokenize(str)
-    # print query_word_list
-    query_word_list = [porter_stemmer.stem(word.lower()) for word in query_word_list]
-    # print query_word_list
     query_tfidf = words2tfidf(query_word_list)
     
     # fetch relevant articles from inverted list
@@ -94,11 +85,6 @@ def query(str, K = 20):
         else:
             # print keyword, 'NOT in our data'
             pass
-    
-    # for k in fileIDict.iteritems():
-    #     print k
-    # sort
-    # print 'before sort:', articles
 
     articles  = sorted(list(articles)[:K], key =lambda x:x[1], reverse = True) # d_cos
     # articles.sort(key =lambda x:x[1], reverse = False) # d_eu
@@ -119,18 +105,29 @@ def query(str, K = 20):
         res.append(tmp)
     return res
 
+def preprocess():
+    porter_stemmer = PorterStemmer()
+    tokenizer = RegexpTokenizer(r'\w+')
+    sents = []
+    for i in range(1, len(sys.argv)):
+        try:
+            tmp = tokenizer.tokenize(sys.argv[i].decode('utf8'))
+        except:
+            tmp = tokenizer.tokenize(sys.argv[i])
+        for word in tmp:
+            word = porter_stemmer.stem(word.lower())
+            sents.append(word)
+    # print sents
+    return sents
+
 if __name__ == '__main__':
-    # a = np.array([1,3,4,5,6,6,7,8,8])
-    # b = np.array([4,12,3,1,2,4,2,9,8])
-    # print cosineDistance(a, b)
-    # print euclideanDistance(a, b)
-    keywords = ['flowers', 'grass', 'Summer', 'Google', 'Autumn']
-    sent = 'Therefore, it is better to have a look at the future impact on oil stocks by these agreements.'
+
     # input is a string
-    start = time.time()
-    res =  query(sent)
-    end = time.time()
+    # start = time.time()
+    sents = preprocess()
+    res =  query(sents)
+    # end = time.time()
     # for i in res:
     #     print i
-    consume_time = end - start
-    print '---------------------', consume_time, '-------------------------'
+    # consume_time = end - start
+    # print '---------------------', consume_time, '-------------------------'
