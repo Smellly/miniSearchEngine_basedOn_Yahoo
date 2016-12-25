@@ -36,6 +36,19 @@ python tf_idf_array/tf_idf_array.py
 python inverted_list/inverted_list.py
 ```
 
+9. 查詢
+```
+python query.py
+```
+# htmlProcess.py
+對html文本內容進行提取，  
+分詞  
+stemming  
+最後統計詞頻  
+
+# idf.py  
+統計了詞在所有文檔中出現的次數  
+
 # urls
 HTML的原文件  
 從www.yahoo.com上爬下來的以html結尾的1000頁  
@@ -79,15 +92,6 @@ tokenizer.tokenize('Eighty-seven miles to go, yet.  Onward!')
 # stop word list
 一共174個詞  
 使用stopwords之後，idf詞表從43936減少到43776個  
-
-# htmlProcess.py
-對html文本內容進行提取，  
-分詞  
-stemming  
-最後統計詞頻  
-
-# idf.py  
-統計了詞在所有文檔中出現的次數  
 
 # numpy 的存取
 利用这种方法，保存文件的后缀名字一定会被置为.npy   
