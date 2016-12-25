@@ -8,6 +8,7 @@
 import time
 import numpy as np
 from nltk.stem.porter import PorterStemmer # for stemming
+from nltk.tokenize import RegexpTokenizer  # for tokenize
 try:
     import cPickle as pkl
 except:
@@ -44,19 +45,27 @@ def words2tfidf(query_word_list):
     return qTfidf
 
 # input:
-# query_word_list
+# str
 # output:
 # k nearest_file_id
-def query(query_word_list, K = 20):
+def query(str, K = 20):
     with open('word_file_index/file_index.pickle', 'r') as fin:
         file_index = pkl.load(fin)
-    print 'loading inverted_list/inverted_list_test.pickle'
+    # print 'loading inverted_list/inverted_list_test.pickle'
     with open('inverted_list/inverted_list_test.pickle', 'r') as fin:
         inverted_list = pkl.load(fin)
     tf_idf_array = np.load('tf_idf_array/tf_idf_array.npy')
 
     porter_stemmer = PorterStemmer()
+    tokenizer = RegexpTokenizer(r'\w+')
+    # print str
+    try:
+        query_word_list = tokenizer.tokenize(str.decode('utf8'))
+    except:
+        query_word_list = tokenizer.tokenize(str)
+    # print query_word_list
     query_word_list = [porter_stemmer.stem(word.lower()) for word in query_word_list]
+    # print query_word_list
     query_tfidf = words2tfidf(query_word_list)
     
     # fetch relevant articles from inverted list
@@ -83,7 +92,8 @@ def query(query_word_list, K = 20):
                 # print 'euclidean distance:', d2
                 articles.add((t[0], d_cos))
         else:
-            print keyword, 'NOT in our data'
+            # print keyword, 'NOT in our data'
+            pass
     
     # for k in fileIDict.iteritems():
     #     print k
@@ -116,11 +126,11 @@ if __name__ == '__main__':
     # print euclideanDistance(a, b)
     keywords = ['flowers', 'grass', 'Summer', 'Google', 'Autumn']
     sent = 'Therefore, it is better to have a look at the future impact on oil stocks by these agreements.'
+    # input is a string
     start = time.time()
-    res =  query(sent.split())
+    res =  query(sent)
     end = time.time()
-    for i in res:
-        print i
+    # for i in res:
+    #     print i
     consume_time = end - start
-    consume_time = time.strftime('%H:%M:%S', time.gmtime(consume_time))
     print '---------------------', consume_time, '-------------------------'
