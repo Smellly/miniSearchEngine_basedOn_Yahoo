@@ -26,7 +26,7 @@ def word_file_index():
     word_index = dict()
     index = 0
     # 为每个单词建立一个ID编码
-    with open('../idf.pickle', 'r') as fin:  
+    with open('idf.pickle', 'r') as fin:  
         d = pkl.load(fin)
         # del d['Url']
         # del d['Title']
@@ -35,7 +35,7 @@ def word_file_index():
         for word, idf in d.items():
             # if word != 'Url' and word != 'Title' and word != 'Content' and word != 'Raw':
             # idf.pickle 中沒有存 url title相關信息
-            print word
+            # print word
             word_index[index] = word
             index = index + 1
 
