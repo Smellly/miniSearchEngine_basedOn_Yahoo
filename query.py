@@ -53,7 +53,7 @@ def query(query_word_list, K = 20):
     with open('word_file_index/file_index.pickle', 'r') as fin:
         file_index = pkl.load(fin)
     # print 'loading inverted_list/inverted_list_test.pickle'
-    with open('inverted_list/inverted_list_test.pickle', 'r') as fin:
+    with open('inverted_list/inverted_list.pickle', 'r') as fin:
         inverted_list = pkl.load(fin)
     tf_idf_array = np.load('tf_idf_array/tf_idf_array.npy')
 
@@ -77,19 +77,19 @@ def query(query_word_list, K = 20):
                 # compute distance
                 # print 'sum query_tfidf :', sum(query_tfidf)
                 # print 'sum tf_idf_array:', sum(tf_idf_array[t[0]])
-                d_cos = cosineDistance(query_tfidf, tf_idf_array[t[0]])
-                # d_eu = euclideanDistance(query_tfidf, tf_idf_array[t[0]])
+                # d_cos = cosineDistance(query_tfidf, tf_idf_array[t[0]])
+                d_eu = euclideanDistance(query_tfidf, tf_idf_array[t[0]])
                 # print 'cosine    distance:', d
                 # print 'euclidean distance:', d2
-                articles.add((t[0], d_cos))
+                articles.add((t[0], d_eu))
         else:
             # print keyword, 'NOT in our data'
             pass
 
-    articles  = sorted(list(articles)[:K], key =lambda x:x[1], reverse = True) # d_cos
+    articles  = sorted(list(articles)[:K], key =lambda x:x[1], reverse = False) # d_cos
     # articles.sort(key =lambda x:x[1], reverse = False) # d_eu
     res = []
-    # print 'after sort:', articles[:20]
+    print 'after sort:', articles[:20]
     for file_id, dis in articles:
         articleList = fileIDict[file_id]
         file_idList = [x[0] for x in articleList]
@@ -123,11 +123,11 @@ def preprocess():
 if __name__ == '__main__':
 
     # input is a string
-    # start = time.time()
+    start = time.time()
     sents = preprocess()
     res =  query(sents)
-    # end = time.time()
-    # for i in res:
-    #     print i
-    # consume_time = end - start
-    # print '---------------------', consume_time, '-------------------------'
+    end = time.time()
+    for i in res:
+        print i
+    consume_time = end - start
+    print '---------------------', consume_time, '-------------------------'
