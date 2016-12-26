@@ -11,4 +11,5 @@ idf.pyc
 *.pickle
 *.tar.gz
 *.npy
+analysis.txt
 
